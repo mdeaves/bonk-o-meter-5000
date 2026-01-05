@@ -242,9 +242,9 @@ def get_weekly_summary():
     try:
         print("\n=== Fetching weekly summary ===")
         
-        # Get last 8 weeks of data
+        # Get last 150 days of data to cover back to August
         end_date = datetime.now()
-        start_date = end_date - timedelta(days=56)
+        start_date = end_date - timedelta(days=150)
         
         activities = garmin_client.get_activities_by_date(
             start_date.strftime('%Y-%m-%d'),
@@ -303,9 +303,9 @@ def get_training_load():
     try:
         print("\n=== Calculating training load metrics ===")
         
-        # Get last 90 days to have enough data for proper CTL calculation
+        # Get last 180 days to have enough data for proper CTL calculation
         end_date = datetime.now()
-        start_date = end_date - timedelta(days=90)
+        start_date = end_date - timedelta(days=180)
         
         activities = garmin_client.get_activities_by_date(
             start_date.strftime('%Y-%m-%d'),
@@ -378,8 +378,8 @@ def get_training_load():
             
             current_date += timedelta(days=1)
         
-        # Only return last 60 days for the chart
-        cutoff_date = end_date.date() - timedelta(days=60)
+        # Only return last 150 days for the chart
+        cutoff_date = end_date.date() - timedelta(days=150)
         filtered_data = [d for d in training_load_data if datetime.strptime(d['date'], '%Y-%m-%d').date() >= cutoff_date]
         
         print(f"Returning {len(filtered_data)} days of training load data\n")
